@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav_graph"
+    app:startDestination="@+id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.yuge.navigationdemo.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_secondFragment"
+            app:destination="@id/secondFragment"
+            app:enterAnim="@anim/scale"
+            app:exitAnim="@anim/slide_to_right">
+            <argument
+                android:name="text1"
+                android:defaultValue="ok" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="com.yuge.navigationdemo.SecondFragment"
+        android:label="Second"
+        tools:layout="@layout/fragment_second">
+        <action
+            android:id="@+id/action_secondFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/slide_to_right"
+            app:popUpTo="@+id/homeFragment" />
+        <argument
+            android:name="text1"
+            app:argType="string"
+            android:defaultValue="happy" />
+    </fragment>
+</navigation>
