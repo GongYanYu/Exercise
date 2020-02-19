@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Room Exercise</string>
+    <string name="text1">insert</string>
+    <string name="text2">update</string>
+    <string name="text3">clear</string>
+    <string name="text4">delete</string>
+</resources>
