@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">CalculatorGame</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_message">Calculation Text</string>
+    <string name="app_version">1.0.1 @YUGE</string>
+    <string name="title_img">chicken</string>
+    <string name="title_start">start</string>
+    <string name="title_high_score">high score:%d</string>
+    <string name="q_button1">1</string>
+    <string name="q_button2">2</string>
+    <string name="q_button0">0</string>
+    <string name="q_button3">3</string>
+    <string name="q_button4">4</string>
+    <string name="q_button5">5</string>
+    <string name="q_button6">6</string>
+    <string name="q_button7">7</string>
+    <string name="q_button8">8</string>
+    <string name="q_button9">9</string>
+    <string name="q_button_reset">C</string>
+    <string name="q_button_submit">ok</string>
+    <string name="sign_add">+</string>
+    <string name="sign_equal">=</string>
+    <string name="sign_question" >\?</string>
+    <string name="q_text_curent_score">Score:%d</string>
+    <string name="q_text_current_ans" >Your Answer:</string>
+    <string name="text_back">back</string>
+    <string name="image_lose">lose</string>
+    <string name="win_image">win</string>
+    <string name="lose_message">You Lose!</string>
+    <string name="lose_score">Your Score:%d</string>
+</resources>
