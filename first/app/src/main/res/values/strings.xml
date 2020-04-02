@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">first</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="msg1">请输入</string>
+    <string name="button">解析</string>
+</resources>
