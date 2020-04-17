@@ -21,46 +21,55 @@ class GalleryAdapter: ListAdapter<PhotoItem, MyViewHolder>(DiffCallback) {
         val holder=MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.gallery_cell,parent,false))
         holder.itemView.setOnClickListener{
             Bundle().apply {
-                putParcelable("photo",getItem(holder.adapterPosition))
-                holder.itemView.findNavController().navigate(R.id.action_galleryFragment_to_photoFragment,this)
+                putParcelableArrayList("photo_list",ArrayList(currentList))//传列表
+                putInt("current_photo",holder.bindingAdapterPosition)//bindingAdapterPosition is  current position
+                holder.itemView.findNavController().navigate(R.id.action_galleryFragment_to_pagerPhotoFragment,this)
             }
         }
         return holder
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.shimmerLayoutCell.apply {
-            setShimmerColor(0X55FFFFFF)
-            setShimmerAngle(0)
-            startShimmerAnimation()
+        val photoItem = getItem(position)
+        with(holder.itemView) {
+            shimmerLayoutCell.apply {
+                setShimmerColor(0X55FFFFFF)
+                setShimmerAngle(0)
+                startShimmerAnimation()
+            }
+            textViewUser.text=photoItem.photoUser
+            textViewLike.text=photoItem.photoLikes.toString()
+            textViewFavorites.text=photoItem.photoFavorites.toString()
+
+            imageView.layoutParams.height = photoItem.photoHeight
+
+            Glide.with(this)
+                .load(getItem(position).previewUrl)
+                .placeholder(R.drawable.photo_placeholder)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false.also { shimmerLayoutCell?.stopShimmerAnimation() }//未加载完离开下一次可能为空
+                    }
+
+                })
+                .into(imageView)
         }
-        Glide.with(holder.itemView)
-            .load(getItem(position).previewUrl)
-            .placeholder(R.drawable.ic_photo_gray_24dp)
-            .listener(object :RequestListener<Drawable>{
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false.also { holder.itemView.shimmerLayoutCell?.stopShimmerAnimation() }//未加载完离开下一次可能为空
-                }
-
-            })
-            .into(holder.itemView.imageView)
     }
-
     object DiffCallback:DiffUtil.ItemCallback<PhotoItem>() {
         override fun areItemsTheSame(oldItem: PhotoItem, newItem: PhotoItem): Boolean {
             return oldItem===newItem

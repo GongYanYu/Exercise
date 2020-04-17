@@ -10,4 +10,10 @@ public class MyStringsUtils {
     public String rChineseMarks(String str) {//remove chinese
         return str.replaceAll("[£¬¡£¡®¡°£»£º¡¢¡¤]", "");
     }
+    public String rEnglishMarks(String str){
+        return str.replaceAll("[,\\|`~*]", "");
+    }
+    public String rT(String str){
+        return str.replaceAll("[\\t]", "");
+    }
 }

@@ -5,12 +5,12 @@
     android:id="@+id/shimmerLayoutPhoto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PhotoFragment" >
+    tools:context=".PhotoFragment">
 
     <uk.co.senab.photoview.PhotoView
         android:id="@+id/photoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/ic_file_download_green" />
+        app:srcCompat="@drawable/ic_photo_gray_24dp" />
 </io.supercharge.shimmerlayout.ShimmerLayout>

@@ -1,4 +1,4 @@
-package com.yuge.gallery
+package com.yuge.gallerykotlin
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -33,11 +33,10 @@ class PhotoFragment : Fragment() {
             setShimmerAngle(0)
             startShimmerAnimation()
         }
-
         Glide.with(requireContext())
-            .load(arguments?.getParcelable<PhotoItem>("photo")?.fullUrl)
+            .load(arguments?.getParcelable<PhotoItem>("photo")?.largeImageURL)
             .placeholder(R.drawable.ic_photo_gray_24dp)
-            .listener(object :RequestListener<Drawable>{
+            .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
@@ -54,13 +53,10 @@ class PhotoFragment : Fragment() {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    return false.also {
-                        shimmerLayoutPhoto?.stopShimmerAnimation()
-                    }
+                    return false.also { shimmerLayoutPhoto.stopShimmerAnimation() }
                 }
 
             })
             .into(photoView)
     }
-
 }
