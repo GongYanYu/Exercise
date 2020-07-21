@@ -8,6 +8,7 @@ import android.widget.GridLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_gallery.*
 
@@ -35,7 +36,7 @@ class GalleryFragment : Fragment() {
         when(item.itemId){
             R.id.swipeIndicator -> {
                 swipeLayoutGallery.isRefreshing=true
-                Handler().postDelayed({galleryViewModel.fetchData()},1000)//set Delay
+                Handler().postDelayed({galleryViewModel.resetQuery()},1000)//set Delay
             }
         }
         return super.onOptionsItemSelected(item)
@@ -54,14 +55,33 @@ class GalleryFragment : Fragment() {
             .AndroidViewModelFactory(requireActivity().application).create(GalleryViewModel::class.java)
 
         galleryViewModel.photoListLive.observe(viewLifecycleOwner, Observer {
+            if(galleryViewModel.needToScrollTop){
+                recycleView.scrollToPosition(0)
+                galleryViewModel.needToScrollTop=false
+            }
             galleryAdapter.submitList(it)
             swipeLayoutGallery.isRefreshing=false
         })
-
-        galleryViewModel.photoListLive.value?:galleryViewModel.fetchData()
+        galleryViewModel.dataStateLive.observe(viewLifecycleOwner, Observer {
+            galleryAdapter.footViewState=it
+            if(it== DATA_NET_WORK_ERROR) swipeLayoutGallery.isRefreshing=false
+        })
 
         swipeLayoutGallery.setOnRefreshListener {
-            galleryViewModel.fetchData()
+            galleryViewModel.resetQuery()
         }
+
+        recycleView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)//dy<0   上页内容
+                if(dy<0) return
+                val layoutManager=recyclerView.layoutManager as StaggeredGridLayoutManager
+                val intArray=IntArray(2)
+                layoutManager.findLastVisibleItemPositions(intArray)
+                if(intArray[0]==galleryAdapter.itemCount-1){//判断是不是页脚
+                    galleryViewModel.fetchData()
+                }
+            }
+        })
     }
 }
